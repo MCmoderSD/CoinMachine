@@ -6,15 +6,15 @@ public class Controller {
     private int totalValue;
     private final GUI gui;
 
-    private final ArrayList<Storage> coinStacks = new ArrayList<>();
-    private final Storage oneCent = new Storage(0, 100, 1);
-    private final Storage twoCent = new Storage(0, 100, 2);
-    private final Storage fiveCent = new Storage(0, 100, 5);
-    private final Storage tenCent = new Storage(0, 100, 10);
-    private final Storage twentyCent = new Storage(0, 100, 20);
-    private final Storage fiftyCent = new Storage(0, 100, 50);
-    private final Storage oneEuro = new Storage(0, 100, 100);
-    private final Storage twoEuro = new Storage(0, 100, 200);
+    private final ArrayList<CoinStack> coinStacks = new ArrayList<>();
+    private final CoinStack oneCent = new CoinStack(0, 100, 1);
+    private final CoinStack twoCent = new CoinStack(0, 100, 2);
+    private final CoinStack fiveCent = new CoinStack(0, 100, 5);
+    private final CoinStack tenCent = new CoinStack(0, 100, 10);
+    private final CoinStack twentyCent = new CoinStack(0, 100, 20);
+    private final CoinStack fiftyCent = new CoinStack(0, 100, 50);
+    private final CoinStack oneEuro = new CoinStack(0, 100, 100);
+    private final CoinStack twoEuro = new CoinStack(0, 100, 200);
 
     // Constructor
     public Controller() {
@@ -35,12 +35,12 @@ public class Controller {
     // Calculates the total value of all coin stacks
     private void updateTotalValue() {
         totalValue = 0;
-        for (Storage coinStack : coinStacks) totalValue += coinStack.getStackValue();
+        for (CoinStack coinStack : coinStacks) totalValue += coinStack.getStackValue();
     }
 
     // Refill all coin stacks
     public void refill() {
-        for (Storage coinStack : coinStacks) coinStack.refill();
+        for (CoinStack coinStack : coinStacks) coinStack.refill();
         updateTotalValue();
     }
 

@@ -1,5 +1,5 @@
 @SuppressWarnings("unused")
-public class Storage {
+public class CoinStack {
     private final int increment;
     private final int maxCapacity;
     private final int minCapacity;
@@ -7,9 +7,9 @@ public class Storage {
     private int stackValue;
 
     // Constructor
-    public Storage(int min, int max, int increment) {
-        this.minCapacity = min * increment;
-        this.maxCapacity = max * increment;
+    public CoinStack(int minStackSize, int maxStackSize, int increment) {
+        this.minCapacity = minStackSize * increment;
+        this.maxCapacity = maxStackSize * increment;
         this.increment = increment;
         refill();
     }
