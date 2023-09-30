@@ -16,7 +16,7 @@ public class GUI extends JFrame {
     private final JTextField twoEuroField;
     private final JTextField totalValueField;
 
-    public GUI(Storage storage) {
+    public GUI(Controller controller) {
         super("Coin Machine");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -58,8 +58,8 @@ public class GUI extends JFrame {
         withdrawButton.addActionListener(e -> {
             if (amountField.getText().isEmpty()) showErrorMessage("Please enter an amount");
             else {
-                storage.withdrawIsValid(Integer.parseInt(amountField.getText()));
-                updateCoinCount(storage);
+                controller.withDraw(Integer.parseInt(amountField.getText()));
+                updateCoinCount(controller);
             }
         });
 
@@ -183,8 +183,8 @@ public class GUI extends JFrame {
             if (!refillIsValid()) {
                 showErrorMessage("Please fill all the fields");
             } else {
-                storage.refill(
-                        Integer.parseInt(oneCentField.getText()),
+                controller.refill(
+                        /*Integer.parseInt(oneCentField.getText()),
                         Integer.parseInt(twoCentField.getText()),
                         Integer.parseInt(fiveCentField.getText()),
                         Integer.parseInt(tenCentField.getText()),
@@ -192,8 +192,9 @@ public class GUI extends JFrame {
                         Integer.parseInt(fiftyCentField.getText()),
                         Integer.parseInt(oneEuroField.getText()),
                         Integer.parseInt(twoEuroField.getText())
+                         */
                 );
-                updateCoinCount(storage);
+                updateCoinCount(controller);
             }
         });
 
@@ -211,7 +212,7 @@ public class GUI extends JFrame {
         adminSide.add(totalValueField);
 
 
-        updateCoinCount(storage);
+        updateCoinCount(controller);
 
 
         // Centering the window
@@ -221,6 +222,7 @@ public class GUI extends JFrame {
 
 
         // Text Fields Input Correction
+
 
         totalValueField.addKeyListener(new KeyAdapter() {
             @Override
@@ -234,6 +236,7 @@ public class GUI extends JFrame {
             }
         });
 
+
         for (JTextField coinField : coinFields) coinField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -242,6 +245,18 @@ public class GUI extends JFrame {
         });
 
         coinFields.remove(amountField);
+
+        for (JTextField coinField : coinFields) coinField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                e.consume();
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                e.consume();
+            }
+        });
     }
 
     // Only allows integers to be typed in the text fields
@@ -259,16 +274,16 @@ public class GUI extends JFrame {
     }
 
     // Updates the coin count and total value fields
-    public void updateCoinCount(Storage storage) {
-        oneCentField.setText(storage.getOneCents());
-        twoCentField.setText(storage.getTwoCents());
-        fiveCentField.setText(storage.getFiveCents());
-        tenCentField.setText(storage.getTenCents());
-        twentyCentField.setText(storage.getTwentyCents());
-        fiftyCentField.setText(storage.getFiftyCents());
-        oneEuroField.setText(storage.getOneEuros());
-        twoEuroField.setText(storage.getTwoEuros());
-        totalValueField.setText(storage.getTotalValue());
+    public void updateCoinCount(Controller controller) {
+        oneCentField.setText(String.valueOf(controller.getOneCentStackSize()));
+        twoCentField.setText(String.valueOf(controller.getTwoCentStackSize()));
+        fiveCentField.setText(String.valueOf(controller.getFiveCentStackSize()));
+        tenCentField.setText(String.valueOf(controller.getTenCentStackSize()));
+        twentyCentField.setText(String.valueOf(controller.getTwentyCentStackSize()));
+        fiftyCentField.setText(String.valueOf(controller.getFiftyCentStackSize()));
+        oneEuroField.setText(String.valueOf(controller.getOneEuroStackSize()));
+        twoEuroField.setText(String.valueOf(controller.getTwoEuroStackSize()));
+        totalValueField.setText(String.valueOf(controller.getTotalValue()));
     }
 
     // Shows an error message
