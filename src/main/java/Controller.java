@@ -6,14 +6,21 @@ public class Controller {
     private int totalValue;
     private final GUI gui;
     private final ArrayList<CoinStack> coinStacks = new ArrayList<>();
-    private final CoinStack oneCent = new CoinStack(0, 100, 1);
-    private final CoinStack twoCent = new CoinStack(0, 100, 2);
-    private final CoinStack fiveCent = new CoinStack(0, 100, 5);
-    private final CoinStack tenCent = new CoinStack(0, 100, 10);
-    private final CoinStack twentyCent = new CoinStack(0, 100, 20);
-    private final CoinStack fiftyCent = new CoinStack(0, 100, 50);
-    private final CoinStack oneEuro = new CoinStack(0, 100, 100);
-    private final CoinStack twoEuro = new CoinStack(0, 100, 200);
+    private final CoinStack oneCent = new CoinStack(1, 0, 100);
+    private final CoinStack twoCent = new CoinStack(2, 0, 50);
+    private final CoinStack fiveCent = new CoinStack(5, 0, 20);
+    private final CoinStack tenCent = new CoinStack(10, 0, 10);
+    private final CoinStack twentyCent = new CoinStack(20, 0, 5);
+    private final CoinStack fiftyCent = new CoinStack(50, 0, 2);
+    private final CoinStack oneEuro = new CoinStack(100, 0, 1);
+    private final CoinStack twoEuro = new CoinStack(200, 0, 1);
+    private final CoinStack fiveEuro = new CoinStack(500, 0, 1);
+    private final CoinStack tenEuro = new CoinStack(1000, 0, 1);
+    private final CoinStack twentyEuro = new CoinStack(2000, 0, 1);
+    private final CoinStack fiftyEuro = new CoinStack(5000, 0, 1);
+    private final CoinStack oneHundredEuro = new CoinStack(10000, 0, 1);
+    private final CoinStack twoHundredEuro = new CoinStack(20000, 0, 1);
+    private final CoinStack fiveHundredEuro = new CoinStack(50000, 0, 1);
 
     // Constructor
     public Controller() {
@@ -25,6 +32,13 @@ public class Controller {
         coinStacks.add(fiftyCent);
         coinStacks.add(oneEuro);
         coinStacks.add(twoEuro);
+        coinStacks.add(fiveEuro);
+        coinStacks.add(tenEuro);
+        coinStacks.add(twentyEuro);
+        coinStacks.add(fiftyEuro);
+        coinStacks.add(oneHundredEuro);
+        coinStacks.add(twoHundredEuro);
+        coinStacks.add(fiveHundredEuro);
 
         updateTotalValue();
 
@@ -44,7 +58,7 @@ public class Controller {
     }
 
     // Refill all coin stacks with custom values
-    public void refill(int oneCentStack, int twoCentStack, int fiveCentStack, int tenCentStack, int twentyCentStack, int fiftyCentStack, int oneEuroStack, int twoEuroStack) {
+    public void refill(int oneCentStack, int twoCentStack, int fiveCentStack, int tenCentStack, int twentyCentStack, int fiftyCentStack, int oneEuroStack, int twoEuroStack, int fiveEuroStack, int tenEuroStack, int twentyEuroStack, int fiftyEuroStack, int oneHundredEuroStack, int twoHundredEuroStack, int fiveHundredEuroStack) {
         oneCent.setStackSize(oneCentStack);
         twoCent.setStackSize(twoCentStack);
         fiveCent.setStackSize(fiveCentStack);
@@ -53,43 +67,72 @@ public class Controller {
         fiftyCent.setStackSize(fiftyCentStack);
         oneEuro.setStackSize(oneEuroStack);
         twoEuro.setStackSize(twoEuroStack);
+        fiveEuro.setStackSize(fiveEuroStack);
+        tenEuro.setStackSize(tenEuroStack);
+        twentyEuro.setStackSize(twentyEuroStack);
+        fiftyEuro.setStackSize(fiftyEuroStack);
+        oneHundredEuro.setStackSize(oneHundredEuroStack);
+        twoHundredEuro.setStackSize(twoHundredEuroStack);
+        fiveHundredEuro.setStackSize(fiveHundredEuroStack);
+
         updateTotalValue();
     }
 
     // Dispense coins
-    public void withDraw(int amount) {
+    public void withdraw(int amount) {
         updateTotalValue();
         int amountLeft = amount;
 
         if (amountLeft > totalValue) gui.showErrorMessage("Not enough coins in the machine!");
         else while (amountLeft > 0) {
-            if (amountLeft >= 200 && twoEuro.getStackSize() > 0) {
+            if (amountLeft >= fiveHundredEuro.getStackValue() && fiveHundredEuro.hasCoins()) {
+                fiveHundredEuro.decrease();
+                amountLeft -= fiveHundredEuro.getStackValue();
+            } else if (amountLeft >= twoHundredEuro.getStackValue() && twoHundredEuro.hasCoins()) {
+                twoHundredEuro.decrease();
+                amountLeft -= twoHundredEuro.getStackValue();
+            } else if (amountLeft >= oneHundredEuro.getStackValue() && oneHundredEuro.hasCoins()) {
+                oneHundredEuro.decrease();
+                amountLeft -= oneHundredEuro.getStackValue();
+            } else if (amountLeft >= fiftyEuro.getStackValue() && fiftyEuro.hasCoins()) {
+                fiftyEuro.decrease();
+                amountLeft -= fiftyEuro.getStackValue();
+            } else if (amountLeft >= twentyEuro.getStackValue() && twentyEuro.hasCoins()) {
+                twentyEuro.decrease();
+                amountLeft -= twentyEuro.getStackValue();
+            } else if (amountLeft >= tenEuro.getStackValue() && tenEuro.hasCoins()) {
+                tenEuro.decrease();
+                amountLeft -= tenEuro.getStackValue();
+            } else if (amountLeft >= fiveEuro.getStackValue() && fiveEuro.hasCoins()) {
+                fiveEuro.decrease();
+                amountLeft -= fiveEuro.getStackValue();
+            } else if (amountLeft >= twoEuro.getStackValue() && twoEuro.hasCoins()) {
                 twoEuro.decrease();
-                amountLeft -= 200;
-            } else if (amountLeft >= 100 && oneEuro.getStackSize() > 0) {
+                amountLeft -= twoEuro.getStackValue();
+            } else if (amountLeft >= oneEuro.getStackValue() && oneEuro.hasCoins()) {
                 oneEuro.decrease();
-                amountLeft -= 100;
-            } else if (amountLeft >= 50 && fiftyCent.getStackSize() > 0) {
+                amountLeft -= oneEuro.getStackValue();
+            } else if (amountLeft >= fiftyCent.getStackValue() && fiftyCent.hasCoins()) {
                 fiftyCent.decrease();
-                amountLeft -= 50;
-            } else if (amountLeft >= 20 && twentyCent.getStackSize() > 0) {
+                amountLeft -= fiftyCent.getStackValue();
+            } else if (amountLeft >= twentyCent.getStackValue() && twentyCent.hasCoins()) {
                 twentyCent.decrease();
-                amountLeft -= 20;
-            } else if (amountLeft >= 10 && tenCent.getStackSize() > 0) {
+                amountLeft -= twentyCent.getStackValue();
+            } else if (amountLeft >= tenCent.getStackValue() && tenCent.hasCoins()) {
                 tenCent.decrease();
-                amountLeft -= 10;
-            } else if (amountLeft >= 5 && fiveCent.getStackSize() > 0) {
+                amountLeft -= tenCent.getStackValue();
+            } else if (amountLeft >= fiveCent.getStackValue() && fiveCent.hasCoins()) {
                 fiveCent.decrease();
-                amountLeft -= 5;
-            } else if (amountLeft >= 2 && twoCent.getStackSize() > 0) {
+                amountLeft -= fiveCent.getStackValue();
+            } else if (amountLeft >= twoCent.getStackValue() && twoCent.hasCoins()) {
                 twoCent.decrease();
-                amountLeft -= 2;
-            } else if (oneCent.getStackSize() > 0) {
+                amountLeft -= twoCent.getStackValue();
+            } else if (amountLeft >= oneCent.getStackValue() && oneCent.hasCoins()) {
                 oneCent.decrease();
-                amountLeft -= 1;
+                amountLeft -= oneCent.getStackValue();
             } else {
                 gui.showErrorMessage("Not enough coins in the machine!");
-                gui.showErrorMessage("You got only " + (amount - amountLeft) + " coins!" );
+                gui.showErrorMessage("You got " + (amount - amountLeft) + " coins.");
                 break;
             }
         }
@@ -125,5 +168,26 @@ public class Controller {
     }
     public int getTwoEuroStackSize() {
         return twoEuro.getStackSize();
+    }
+    public int getFiveEuroStackSize() {
+        return fiveEuro.getStackSize();
+    }
+    public int getTenEuroStackSize() {
+        return tenEuro.getStackSize();
+    }
+    public int getTwentyEuroStackSize() {
+        return twentyEuro.getStackSize();
+    }
+    public int getFiftyEuroStackSize() {
+        return fiftyEuro.getStackSize();
+    }
+    public int getOneHundredEuroStackSize() {
+        return oneHundredEuro.getStackSize();
+    }
+    public int getTwoHundredEuroStackSize() {
+        return twoHundredEuro.getStackSize();
+    }
+    public int getFiveHundredEuroStackSize() {
+        return fiveHundredEuro.getStackSize();
     }
 }
