@@ -66,7 +66,7 @@ public class GUI extends JFrame {
         withdrawButton.addActionListener(e -> {
             if (amountField.getText().isEmpty()) showErrorMessage("Please enter an amount");
             else {
-                controller.withdraw(Integer.parseInt(amountField.getText()));
+                controller.withdraw(Double.parseDouble(amountField.getText()));
                 updateCoinCount(controller);
             }
         });
@@ -218,6 +218,7 @@ public class GUI extends JFrame {
         twentyEuroField.setLocation(twentyEuroLabel.getX() + twentyEuroLabel.getWidth(), 12 * twentyEuroField.getHeight());
         twentyEuroField.setFont(font);
         adminSide.add(twentyEuroField);
+        coinFields.add(twentyEuroField);
 
         JLabel fiftyEuroLabel = new JLabel("Fifty Euro: ");
         fiftyEuroLabel.setSize(width, componentHeight);
@@ -363,7 +364,9 @@ public class GUI extends JFrame {
     // Only allows integers to be typed in the text fields
     private void integerInput(KeyEvent evt) {
         char c = evt.getKeyChar();
-        if (!(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE)) evt.consume();
+        boolean b = !(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == '.' || c == ',');
+        if (b) evt.consume();
+        if (c == ',') evt.setKeyChar('.');
     }
 
     // Checks if all the refill fields are filled

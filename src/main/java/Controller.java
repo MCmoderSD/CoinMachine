@@ -3,24 +3,24 @@ import java.util.ArrayList;
 
 @SuppressWarnings("unused")
 public class Controller {
-    private int totalValue;
+    private double totalValue;
     private final GUI gui;
     private final ArrayList<CoinStack> coinStacks = new ArrayList<>();
-    private final CoinStack oneCent = new CoinStack(1, 0, 100);
-    private final CoinStack twoCent = new CoinStack(2, 0, 50);
-    private final CoinStack fiveCent = new CoinStack(5, 0, 20);
-    private final CoinStack tenCent = new CoinStack(10, 0, 10);
-    private final CoinStack twentyCent = new CoinStack(20, 0, 5);
-    private final CoinStack fiftyCent = new CoinStack(50, 0, 2);
-    private final CoinStack oneEuro = new CoinStack(100, 0, 1);
-    private final CoinStack twoEuro = new CoinStack(200, 0, 1);
-    private final CoinStack fiveEuro = new CoinStack(500, 0, 1);
-    private final CoinStack tenEuro = new CoinStack(1000, 0, 1);
-    private final CoinStack twentyEuro = new CoinStack(2000, 0, 1);
-    private final CoinStack fiftyEuro = new CoinStack(5000, 0, 1);
-    private final CoinStack oneHundredEuro = new CoinStack(10000, 0, 1);
-    private final CoinStack twoHundredEuro = new CoinStack(20000, 0, 1);
-    private final CoinStack fiveHundredEuro = new CoinStack(50000, 0, 1);
+    private final CoinStack oneCent = new CoinStack(1, 0, 1000);
+    private final CoinStack twoCent = new CoinStack(2, 0, 5000);
+    private final CoinStack fiveCent = new CoinStack(5, 0, 2000);
+    private final CoinStack tenCent = new CoinStack(10, 0, 1000);
+    private final CoinStack twentyCent = new CoinStack(20, 0, 5000);
+    private final CoinStack fiftyCent = new CoinStack(50, 0, 2000);
+    private final CoinStack oneEuro = new CoinStack(100, 0, 100);
+    private final CoinStack twoEuro = new CoinStack(200, 0, 500);
+    private final CoinStack fiveEuro = new CoinStack(500, 0, 200);
+    private final CoinStack tenEuro = new CoinStack(1000, 0, 100);
+    private final CoinStack twentyEuro = new CoinStack(2000, 0, 200);
+    private final CoinStack fiftyEuro = new CoinStack(5000, 0, 20);
+    private final CoinStack oneHundredEuro = new CoinStack(10000, 0, 10);
+    private final CoinStack twoHundredEuro = new CoinStack(20000, 0, 5);
+    private final CoinStack fiveHundredEuro = new CoinStack(50000, 0, 2);
 
     // Constructor
     public Controller() {
@@ -49,6 +49,7 @@ public class Controller {
     private void updateTotalValue() {
         totalValue = 0;
         for (CoinStack coinStack : coinStacks) totalValue += coinStack.getStackValue();
+        totalValue *= 0.01;
     }
 
     // Refill all coin stacks
@@ -79,9 +80,10 @@ public class Controller {
     }
 
     // Dispense coins
-    public void withdraw(int amount) {
+    public void withdraw(double amount) {
         updateTotalValue();
-        int amountLeft = amount;
+        int totalValue = (int) (this.totalValue * 100);
+        int amountLeft = (int) (amount * 100);
 
         if (amountLeft > totalValue) gui.showErrorMessage("Not enough coins in the machine!");
         else while (amountLeft > 0) {
@@ -139,7 +141,7 @@ public class Controller {
     }
 
     // Getter for the Total Value
-    public int getTotalValue() {
+    public double getTotalValue() {
         updateTotalValue();
         return totalValue;
     }
