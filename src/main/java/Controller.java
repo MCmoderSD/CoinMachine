@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Controller {
     private int totalValue;
     private final GUI gui;
-
     private final ArrayList<CoinStack> coinStacks = new ArrayList<>();
     private final CoinStack oneCent = new CoinStack(0, 100, 1);
     private final CoinStack twoCent = new CoinStack(0, 100, 2);
