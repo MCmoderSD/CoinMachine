@@ -399,17 +399,28 @@ public class GUI extends JFrame {
     // Checks if all the withdraw field input is valid
     private boolean withdrawIsValid(JTextField amountField) {
         // Check if the amount field is empty
-        if (amountField.getText().isEmpty()) return false;
-        else {
-            // Check if the amount field is a number
-            try {
-                Double.parseDouble(amountField.getText());
-                return true;
-            } catch (NumberFormatException e) {
-                return false;
+        String input = amountField.getText();
+        if (input.isEmpty()) return false;
+
+        // Check if the amount field is a valid number
+        try {
+            // Try to parse the input to a double
+            double amount = Double.parseDouble(input);
+
+            // Check if the number has at most two decimal places
+            String[] parts = input.split("\\.");
+            if (parts.length > 1) {
+                String decimalPart = parts[1];
+                return decimalPart.length() <= 2; // More than two decimal places
             }
+
+            return !(amount < 0); // Check for negative number
+
+        } catch (NumberFormatException e) {
+            return false; // Not a valid number
         }
     }
+
 
     // Checks if all the refill fields are filled
     private boolean refillIsValid() {
