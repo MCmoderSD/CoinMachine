@@ -5,70 +5,75 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class GUI extends JFrame {
+    // Constants
     private final ArrayList<JTextField> coinFields = new ArrayList<>();
-    private final JTextField oneCentField;
-    private final JTextField twoCentField;
-    private final JTextField fiveCentField;
-    private final JTextField tenCentField;
-    private final JTextField twentyCentField;
-    private final JTextField fiftyCentField;
-    private final JTextField oneEuroField;
-    private final JTextField twoEuroField;
-    private final JTextField fiveEuroField;
-    private final JTextField tenEuroField;
-    private final JTextField twentyEuroField;
-    private final JTextField fiftyEuroField;
-    private final JTextField oneHundredEuroField;
-    private final JTextField twoHundredEuroField;
-    private final JTextField fiveHundredEuroField;
-    private final JTextField totalValueField;
 
+    // Components
+    private final JTextField oneCentField, twoCentField, fiveCentField, tenCentField, twentyCentField, fiftyCentField, oneEuroField, twoEuroField; // Coin Fields
+    private final JTextField fiveEuroField, tenEuroField, twentyEuroField, fiftyEuroField, oneHundredEuroField, twoHundredEuroField, fiveHundredEuroField; // Banknote Fields
+    private final JTextField totalValueField; // Total Value Field
+    private final JTextArea dispenseArea; // Dispense Area
+
+    // Constructor
     public GUI(Controller controller) {
+        // JFrame
         super("Coin Machine");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        setResizable(false);
 
         // User Side
         JPanel userSide = new JPanel();
         userSide.setLayout(null);
-        userSide.setPreferredSize(new Dimension(400, 800));
-        add(userSide, BorderLayout.EAST);
+        userSide.setPreferredSize(new Dimension(400, 800)); // Set the size of the user side
+        add(userSide, BorderLayout.EAST); // Add the user side to the right of the frame
 
         // Admin Side
         JPanel adminSide = new JPanel();
         adminSide.setLayout(null);
-        adminSide.setPreferredSize(new Dimension(400, 800));
-        add(adminSide, BorderLayout.WEST);
-        pack();
+        adminSide.setPreferredSize(new Dimension(400, 800)); // Set the size of the admin side
+        add(adminSide, BorderLayout.WEST); // Add the admin side to the left of the frame
+        pack(); // Pack the frame to fit the components
 
 
         //User Components
-        Font font = new Font("Roboto", Font.PLAIN, 18);
-        int componentHeight = 30;
+        Font font = new Font("Roboto", Font.PLAIN, 18); // Font for the components
+        int componentHeight = 30; // Height of the components
 
+        // Dispense Area
+        dispenseArea = new JTextArea();
+        dispenseArea.setSize(Math.toIntExact(Math.round(userSide.getWidth() * 0.8)), Math.toIntExact(Math.round(userSide.getHeight() * 0.6)));
+        dispenseArea.setLocation((userSide.getWidth() - dispenseArea.getWidth()) / 2, componentHeight * 2);
+        dispenseArea.setFont(font);
+        dispenseArea.setEditable(false);
+        userSide.add(dispenseArea);
+
+        // Withdraw Button
         JButton withdrawButton = new JButton("Withdraw");
         int buttonWidth = Math.toIntExact(Math.round(userSide.getWidth() * 0.6));
         withdrawButton.setSize(buttonWidth, 50);
 
+        // Centering the button
         int buttonX = (userSide.getWidth() - withdrawButton.getWidth()) / 2;
         int buttonY = Math.toIntExact(Math.round((userSide.getHeight() - withdrawButton.getHeight()) * 0.8));
         withdrawButton.setLocation(buttonX, buttonY);
         withdrawButton.setFont(font);
         userSide.add(withdrawButton);
 
+        // Amount Field
         JTextField amountField = new JTextField();
         amountField.setSize(buttonWidth, componentHeight);
         amountField.setLocation(buttonX, buttonY + 2 * amountField.getHeight());
         amountField.setFont(font);
         userSide.add(amountField);
-        coinFields.add(amountField);
 
+        // Withdraw Button Action Listener
         withdrawButton.addActionListener(e -> {
-            if (amountField.getText().isEmpty()) showErrorMessage("Please enter an amount");
-            else {
-                controller.withdraw(Double.parseDouble(amountField.getText()));
-                updateCoinCount(controller);
-            }
+            // Check if the amount field is valid
+            if (withdrawIsValid(amountField)) {
+                controller.withdraw(Double.parseDouble(amountField.getText())); // Withdraw the amount
+                updateCoinCount(controller); // Update the coin count and total value fields
+            } else showErrorMessage("Please enter a valid amount"); // Show an error message
         });
 
 
@@ -292,10 +297,12 @@ public class GUI extends JFrame {
         refillButton.setSize(buttonWidth, 50);
         refillButton.setLocation(buttonX, buttonY);
         refillButton.setFont(font);
+
+        // Refill Button Action Listener
         refillButton.addActionListener(e -> {
-            if (!refillIsValid()) {
-                showErrorMessage("Please fill all the fields");
-            } else {
+            // Check if all the fields are filled
+            if (!refillIsValid()) showErrorMessage("Please fill all the fields");
+            else { // Refill the machine
                 controller.refill(
                         /*Integer.parseInt(oneCentField.getText()),
                         Integer.parseInt(twoCentField.getText()),
@@ -307,13 +314,14 @@ public class GUI extends JFrame {
                         Integer.parseInt(twoEuroField.getText())
                          */
                 );
-                updateCoinCount(controller);
+                updateCoinCount(controller); // Update the coin count and total value fields
             }
         });
 
         adminSide.add(refillButton);
 
 
+        // Update the coin count and total value fields
         updateCoinCount(controller);
 
 
@@ -323,59 +331,94 @@ public class GUI extends JFrame {
         setVisible(true);
 
 
-        // Text Fields Input Correction
+        // Restrict Inputs
 
-
-        totalValueField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                e.consume();
-            }
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-                e.consume();
-            }
-        });
-
-
+        // Only allows integers to be typed in the coin fields
         for (JTextField coinField : coinFields) coinField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                integerInput(e);
+                convertToNumberField(e, false);
             }
         });
 
-        coinFields.remove(amountField);
+        // Only allows floats to be typed in the amount field
+        amountField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                convertToNumberField(e, true);
+            }
+        });
 
+        // Restrict all inputs
+        coinFields.add(totalValueField);
         for (JTextField coinField : coinFields) coinField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                e.consume();
+                e.consume(); // Consume the key event
             }
 
             @Override
             public void keyTyped(KeyEvent e) {
-                e.consume();
+                e.consume(); // Consume the key event
+            }
+        });
+
+        // Restrict all inputs
+        dispenseArea.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                e.consume(); // Consume the key event
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                e.consume(); // Consume the key event
             }
         });
     }
 
-    // Only allows integers to be typed in the text fields
-    private void integerInput(KeyEvent evt) {
-        char c = evt.getKeyChar();
-        boolean b = !(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == '.' || c == ',');
-        if (b) evt.consume();
-        if (c == ',') evt.setKeyChar('.');
+    // Methods
+
+    // Forces the text field to only accept numbers
+    private void convertToNumberField (KeyEvent evt, boolean floatsAllowed) {
+        // Variables
+        char c = evt.getKeyChar(); // The character typed
+        boolean b; // Boolean to check if the character is valid
+
+        // Check if the character is valid
+        if (floatsAllowed) { // If floats are allowed
+            b = !(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == '.' || c == ',');
+            if (b) evt.consume(); // Consume the key event
+            else if (c == ',') evt.setKeyChar('.');
+        } else {
+            b = !(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE);
+            if (b) evt.consume(); // Consume the key event
+        }
+    }
+
+    // Checks if all the withdraw field input is valid
+    private boolean withdrawIsValid(JTextField amountField) {
+        // Check if the amount field is empty
+        if (amountField.getText().isEmpty()) return false;
+        else {
+            // Check if the amount field is a number
+            try {
+                Double.parseDouble(amountField.getText());
+                return true;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
     }
 
     // Checks if all the refill fields are filled
     private boolean refillIsValid() {
-        for (JTextField coinField : coinFields) {
-            if (coinField.getText().isEmpty()) return false;
-        }
+        for (JTextField coinField : coinFields) if (coinField.getText().isEmpty()) return false;
         return true;
     }
+
+
+    // Setters:
 
     // Updates the coin count and total value fields
     public void updateCoinCount(Controller controller) {
@@ -395,6 +438,16 @@ public class GUI extends JFrame {
         twoHundredEuroField.setText(String.valueOf(controller.getTwoHundredEuroStackSize()));
         fiveHundredEuroField.setText(String.valueOf(controller.getFiveHundredEuroStackSize()));
         totalValueField.setText(String.valueOf(controller.getTotalValue()));
+    }
+
+    // Appends the dispense area
+    public void appendDispenseArea(String s) {
+        dispenseArea.append(s);
+    }
+
+    // Clears the dispense area
+    public void clearDispenseArea() {
+        dispenseArea.setText("");
     }
 
     // Shows an error message
