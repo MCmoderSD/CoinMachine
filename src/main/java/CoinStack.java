@@ -1,18 +1,18 @@
 @SuppressWarnings("unused")
 public class CoinStack {
     // Constants
-    private final int increment; // The value of each coin
-    private final int maxValue; // The maximum value of the stack
-    private final int minValue; // The minimum value of the stack
-    private final int maxStackSize; // The maximum size of the stack
-    private final int minStackSize; // The minimum size of the stack
+    private final long increment; // The value of each coin
+    private final long maxValue; // The maximum value of the stack
+    private final long minValue; // The minimum value of the stack
+    private final long maxStackSize; // The maximum size of the stack
+    private final long minStackSize; // The minimum size of the stack
 
     // Attributes
-    private int stackSize; // The current size of the stack
-    private int stackValue; // The current value of the stack
+    private long stackSize; // The current size of the stack
+    private long stackValue; // The current value of the stack
 
     // Constructor
-    public CoinStack(int increment, int minStackSize, int maxStackSize) {
+    public CoinStack(long increment, long minStackSize, long maxStackSize) {
         this.increment = increment;
         this.minStackSize = minStackSize;
         this.maxStackSize = maxStackSize;
@@ -60,7 +60,7 @@ public class CoinStack {
     }
 
     // Setters
-    public void setStackSize(int stackSize) {
+    public void setStackSize(long stackSize) {
         // Check if stack size is within bounds
         if (stackSize > maxStackSize) throw new IllegalArgumentException("Stack size cannot be greater than max stack size");
         if (stackSize < minStackSize) throw new IllegalArgumentException("Stack size cannot be less than min stack size");
@@ -70,7 +70,7 @@ public class CoinStack {
         updateStackValue();
     }
 
-    public void setStackValue(int stackValue) {
+    public void setStackValue(long stackValue) {
         // Check if stack value is within bounds
         if (stackValue > maxValue) throw new IllegalArgumentException("Stack value cannot be greater than max stack value");
         if (stackValue < minValue) throw new IllegalArgumentException("Stack value cannot be less than min stack value");
@@ -82,31 +82,31 @@ public class CoinStack {
 
 
     // Getters
-    public int getIncrement() {
+    public long getIncrement() {
         return increment;
     }
 
-    public int getStackSize() {
+    public long getStackSize() {
         return stackSize;
     }
 
-    public int getStackValue() {
+    public long getStackValue() {
         return stackValue;
     }
 
-    public int getMaxStackSize() {
+    public long getMaxStackSize() {
         return maxStackSize;
     }
 
-    public int getMinStackSize() {
+    public long getMinStackSize() {
         return minStackSize;
     }
 
-    public int getMinValue() {
+    public long getMinValue() {
         return minValue;
     }
 
-    public int getMaxValue() {
+    public long getMaxValue() {
         return maxValue;
     }
 

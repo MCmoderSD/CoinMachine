@@ -304,14 +304,22 @@ public class GUI extends JFrame {
             if (!refillIsValid()) showErrorMessage("Please fill all the fields");
             else { // Refill the machine
                 controller.refill(
-                        /*Integer.parseInt(oneCentField.getText()),
-                        Integer.parseInt(twoCentField.getText()),
-                        Integer.parseInt(fiveCentField.getText()),
-                        Integer.parseInt(tenCentField.getText()),
-                        Integer.parseInt(twentyCentField.getText()),
-                        Integer.parseInt(fiftyCentField.getText()),
-                        Integer.parseInt(oneEuroField.getText()),
-                        Integer.parseInt(twoEuroField.getText())
+                        /*
+                        Long.parseLong(oneCentField.getText()),
+                        Long.parseLong(twoCentField.getText()),
+                        Long.parseLong(fiveCentField.getText()),
+                        Long.parseLong(tenCentField.getText()),
+                        Long.parseLong(twentyCentField.getText()),
+                        Long.parseLong(fiftyCentField.getText()),
+                        Long.parseLong(oneEuroField.getText()),
+                        Long.parseLong(twoEuroField.getText()),
+                        Long.parseLong(fiveEuroField.getText()),
+                        Long.parseLong(tenEuroField.getText()),
+                        Long.parseLong(twentyEuroField.getText()),
+                        Long.parseLong(fiftyEuroField.getText()),
+                        Long.parseLong(oneHundredEuroField.getText()),
+                        Long.parseLong(twoHundredEuroField.getText()),
+                        Long.parseLong(fiveHundredEuroField.getText())
                          */
                 );
                 updateCoinCount(controller); // Update the coin count and total value fields

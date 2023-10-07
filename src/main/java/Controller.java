@@ -75,13 +75,13 @@ public class Controller {
     }
 
     // Check if the machine has enough coins to dispense
-    private int[] withdrawIsPossible(double amount) {
+    private long[] withdrawIsPossible(double amount) {
 
         // Create an array to store the amount of coins to dispense
-        int amountLeft = (int) (amount * 100);
+        long amountLeft = (long) (amount * 100);
 
         // Create an array to store the amount of coins to dispense
-        int[] coinStacks = new int[15];
+        long[] coinStacks = new long[15];
 
         updateTotalValue(); // Update the total value of all coin stacks
 
@@ -179,7 +179,7 @@ public class Controller {
     }
 
     // Dispense coins
-    private void dispense(int[] coinStacks) {
+    private void dispense(long[] coinStacks) {
         gui.clearDispenseArea(); // Clear the dispense area
 
         // Dispense the right amount of coins
@@ -215,7 +215,7 @@ public class Controller {
     }
 
     // Refill all coin stacks with custom values
-    public void refill(int oneCentStack, int twoCentStack, int fiveCentStack, int tenCentStack, int twentyCentStack, int fiftyCentStack, int oneEuroStack, int twoEuroStack, int fiveEuroStack, int tenEuroStack, int twentyEuroStack, int fiftyEuroStack, int oneHundredEuroStack, int twoHundredEuroStack, int fiveHundredEuroStack) {
+    public void refill(long oneCentStack, long twoCentStack, long fiveCentStack, long tenCentStack, long twentyCentStack, long fiftyCentStack, long oneEuroStack, long twoEuroStack, long fiveEuroStack, long tenEuroStack, long twentyEuroStack, long fiftyEuroStack, long oneHundredEuroStack, long twoHundredEuroStack, long fiveHundredEuroStack) {
 
         // Check if the custom values are valid and refill the coin stacks
         if (oneCent.getStackValue() < oneCentStack && oneCentStack < oneCent.getMaxStackSize()) oneCent.setStackSize(oneCentStack);
@@ -239,7 +239,7 @@ public class Controller {
     // Handle the withdrawal of coins
     public void withdraw(double amount) {
         // Calculates the right amount of coins to dispense
-        int[] coinStacks = withdrawIsPossible(amount);
+        long[] coinStacks = withdrawIsPossible(amount);
 
         // Dispense the coins if possible
         if (coinStacks != null) dispense(coinStacks); // If possible, dispense the coins
@@ -257,63 +257,63 @@ public class Controller {
 
 
     // Getters for the Stack Size
-    public int getOneCentStackSize() {
+    public long getOneCentStackSize() {
         return oneCent.getStackSize();
     }
 
-    public int getTwoCentStackSize() {
+    public long getTwoCentStackSize() {
         return twoCent.getStackSize();
     }
 
-    public int getFiveCentStackSize() {
+    public long getFiveCentStackSize() {
         return fiveCent.getStackSize();
     }
 
-    public int getTenCentStackSize() {
+    public long getTenCentStackSize() {
         return tenCent.getStackSize();
     }
 
-    public int getTwentyCentStackSize() {
+    public long getTwentyCentStackSize() {
         return twentyCent.getStackSize();
     }
 
-    public int getFiftyCentStackSize() {
+    public long getFiftyCentStackSize() {
         return fiftyCent.getStackSize();
     }
 
-    public int getOneEuroStackSize() {
+    public long getOneEuroStackSize() {
         return oneEuro.getStackSize();
     }
 
-    public int getTwoEuroStackSize() {
+    public long getTwoEuroStackSize() {
         return twoEuro.getStackSize();
     }
 
-    public int getFiveEuroStackSize() {
+    public long getFiveEuroStackSize() {
         return fiveEuro.getStackSize();
     }
 
-    public int getTenEuroStackSize() {
+    public long getTenEuroStackSize() {
         return tenEuro.getStackSize();
     }
 
-    public int getTwentyEuroStackSize() {
+    public long getTwentyEuroStackSize() {
         return twentyEuro.getStackSize();
     }
 
-    public int getFiftyEuroStackSize() {
+    public long getFiftyEuroStackSize() {
         return fiftyEuro.getStackSize();
     }
 
-    public int getOneHundredEuroStackSize() {
+    public long getOneHundredEuroStackSize() {
         return oneHundredEuro.getStackSize();
     }
 
-    public int getTwoHundredEuroStackSize() {
+    public long getTwoHundredEuroStackSize() {
         return twoHundredEuro.getStackSize();
     }
 
-    public int getFiveHundredEuroStackSize() {
+    public long getFiveHundredEuroStackSize() {
         return fiveHundredEuro.getStackSize();
     }
 }
