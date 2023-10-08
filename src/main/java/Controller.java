@@ -65,13 +65,13 @@ public class Controller {
     // Calculates the total value of all coin stacks
     private void updateTotalValue() {
         // Reset the total value
-        totalValue = 0;
+        long combinedValue = 0;
 
         // Add the value of each coin stack to the total value
-        for (CoinStack coinStack : coinStacks) totalValue += coinStack.getStackValue();
+        for (CoinStack coinStack : coinStacks) combinedValue += coinStack.getStackValue();
 
         // Convert the total value to Euro
-        totalValue *= 0.01;
+        totalValue = combinedValue * 0.01;
     }
 
     // Check if the machine has enough coins to dispense
@@ -152,23 +152,23 @@ public class Controller {
 
                 // Refill the machine
                 for (int i = 0; i < coinStacks.length; i++) {
-                    if (coinStacks[i] > 0) {
+                    while (coinStacks[i] > 0) {
                         switch (i) {
-                            case 0 : oneCent.increase(); break;
-                            case 1 : twoCent.increase(); break;
-                            case 2 : fiveCent.increase(); break;
-                            case 3 : tenCent.increase(); break;
-                            case 4 : twentyCent.increase(); break;
-                            case 5 : fiftyCent.increase(); break;
-                            case 6 : oneEuro.increase(); break;
-                            case 7 : twoEuro.increase(); break;
-                            case 8 : fiveEuro.increase(); break;
-                            case 9 : tenEuro.increase(); break;
-                            case 10 : twentyEuro.increase(); break;
-                            case 11 : fiftyEuro.increase(); break;
-                            case 12 : oneHundredEuro.increase(); break;
-                            case 13 : twoHundredEuro.increase(); break;
-                            case 14 : fiveHundredEuro.increase(); break;
+                            case 0 : oneCent.increase(); coinStacks[i]--; break;
+                            case 1 : twoCent.increase(); coinStacks[i]--; break;
+                            case 2 : fiveCent.increase(); coinStacks[i]--; break;
+                            case 3 : tenCent.increase(); coinStacks[i]--; break;
+                            case 4 : twentyCent.increase(); coinStacks[i]--; break;
+                            case 5 : fiftyCent.increase(); coinStacks[i]--; break;
+                            case 6 : oneEuro.increase(); coinStacks[i]--; break;
+                            case 7 : twoEuro.increase(); coinStacks[i]--; break;
+                            case 8 : fiveEuro.increase(); coinStacks[i]--; break;
+                            case 9 : tenEuro.increase(); coinStacks[i]--; break;
+                            case 10 : twentyEuro.increase(); coinStacks[i]--; break;
+                            case 11 : fiftyEuro.increase(); coinStacks[i]--; break;
+                            case 12 : oneHundredEuro.increase(); coinStacks[i]--; break;
+                            case 13 : twoHundredEuro.increase(); coinStacks[i]--; break;
+                            case 14 : fiveHundredEuro.increase(); coinStacks[i]--; break;
                         }
                     }
                 }

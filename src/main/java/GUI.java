@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class GUI extends JFrame {
@@ -456,7 +458,11 @@ public class GUI extends JFrame {
         oneHundredEuroField.setText(String.valueOf(controller.getOneHundredEuroStackSize()));
         twoHundredEuroField.setText(String.valueOf(controller.getTwoHundredEuroStackSize()));
         fiveHundredEuroField.setText(String.valueOf(controller.getFiveHundredEuroStackSize()));
-        totalValueField.setText(String.valueOf(controller.getTotalValue()));
+
+        // Make sure the total value is rounded to two decimal places
+        BigDecimal totalValue = BigDecimal.valueOf(controller.getTotalValue());
+        totalValue = totalValue.setScale(2, RoundingMode.HALF_UP);
+        totalValueField.setText(totalValue.toString());
     }
 
     // Appends the dispense area

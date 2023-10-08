@@ -11,7 +11,18 @@ public class CoinStack {
     private long stackSize; // The current size of the stack
     private long stackValue; // The current value of the stack
 
-    // Constructor
+
+    // Constructor for Integers
+    public CoinStack(int increment, int minStackSize, int maxStackSize) {
+        this.increment = increment;
+        this.minStackSize = minStackSize;
+        this.maxStackSize = maxStackSize;
+        this.minValue = (long) minStackSize * increment;
+        this.maxValue = (long) maxStackSize * increment;
+        refill();
+    }
+
+    // Constructor for Longs
     public CoinStack(long increment, long minStackSize, long maxStackSize) {
         this.increment = increment;
         this.minStackSize = minStackSize;
@@ -20,7 +31,6 @@ public class CoinStack {
         this.maxValue = maxStackSize * increment;
         refill();
     }
-
 
     // Updates stack size and stack value
     private void updateStackSize() {
