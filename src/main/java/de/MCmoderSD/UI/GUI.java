@@ -1,3 +1,7 @@
+package de.MCmoderSD.UI;
+
+import de.MCmoderSD.core.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;

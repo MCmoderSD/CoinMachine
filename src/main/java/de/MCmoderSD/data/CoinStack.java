@@ -1,3 +1,5 @@
+package de.MCmoderSD.data;
+
 @SuppressWarnings("unused")
 public class CoinStack {
     // Constants

@@ -1,9 +1,14 @@
+package de.MCmoderSD.core;
+
+import de.MCmoderSD.UI.GUI;
+import de.MCmoderSD.data.CoinStack;
+
 import java.util.ArrayList;
 
 @SuppressWarnings("unused")
 public class Controller {
     // Constants
-    private final GUI gui; // GUI
+    private final GUI gui; // de.MCmoderSD.UI.GUI
     private final ArrayList<CoinStack> coinStacks = new ArrayList<>(); // ArrayList of all coin stacks
     private final CoinStack oneCent, twoCent, fiveCent, tenCent, twentyCent, fiftyCent, oneEuro, twoEuro; // Coins
     private final CoinStack fiveEuro, tenEuro, twentyEuro, fiftyEuro, oneHundredEuro, twoHundredEuro, fiveHundredEuro; // Banknotes
@@ -55,7 +60,7 @@ public class Controller {
         // Calculate the total value of all coin stacks
         updateTotalValue();
 
-        // Create the GUI
+        // Create the de.MCmoderSD.UI.GUI
         gui = new GUI(this);
     }
 
